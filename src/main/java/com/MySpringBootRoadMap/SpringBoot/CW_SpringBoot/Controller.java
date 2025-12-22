@@ -20,6 +20,7 @@ public class Controller {
             @PathVariable String email) {
 
         try {
+            System.out.println("Welcome !! to Form Registration.");
             // Name validation
             if (name.trim().isEmpty())
                 throw new MyFormException("Name cannot be empty!");
