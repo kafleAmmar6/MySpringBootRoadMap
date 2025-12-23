@@ -1,16 +1,11 @@
-package com.MySpringBootRoadMap.SpringBoot.CW_SpringBoot;
+package com.MySpringBootRoadMap.SpringBoot.CW_SpringBoot.FormBuild;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class Controller {
-
-    @GetMapping("/add")
-    public int addController(@PathVariable int num1, @PathVariable int num2) {
-        return num1 + num2;
-    }
+public class FormController {
 
     @GetMapping("/form/{name}/{address}/{phone}/{email}")
     public String formDetail(
@@ -20,7 +15,7 @@ public class Controller {
             @PathVariable String email) {
 
         try {
-            System.out.println("Welcome !! to Form Registration.");
+
             // Name validation
             if (name.trim().isEmpty())
                 throw new MyFormException("Name cannot be empty!");
@@ -36,13 +31,18 @@ public class Controller {
                 throw new MyFormException("Phone number must be exactly 10 digits!");
 
             // Email validation
-            if (!email.contains("@"))
+            if (!email.contains("@gmail.com"))
                 throw new MyFormException("Invalid email format!");
 
-            return "✅ Form submitted successfully!";
+            return "Welcome !! to Form Registration."+ "<br><br>"+
+                    "Name : " + name + "<br>" +
+                    "Address : " + address + "<br>" +
+                    "Phone : " + phone + "<br>" +
+                    "Email : " + email + "<br><br>" +
+                    "✅ Form submitted successfully!";
 
         } catch (MyFormException e) {
-            return "❌ Error: " + e.getMessage();
-        }
+            return "❌ Error: " + e.getMessage(); }
     }
 }
+
