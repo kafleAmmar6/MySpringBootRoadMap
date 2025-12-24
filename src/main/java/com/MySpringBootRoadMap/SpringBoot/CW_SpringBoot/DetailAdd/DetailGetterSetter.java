@@ -1,10 +1,9 @@
-package com.MySpringBootRoadMap.SpringBoot.CW_SpringBoot.DetailAdd;
+/*package com.MySpringBootRoadMap.SpringBoot.CW_SpringBoot.DetailAdd;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
-@Scope("prototype") // New instance per request
 public class DetailGetterSetter {
 
     private String name;
@@ -31,5 +30,5 @@ public class DetailGetterSetter {
 
     public String getUserPin() { return userPin; }
     public void setUserPin(String userPin) { this.userPin = userPin; }
-}
+}*/
 
