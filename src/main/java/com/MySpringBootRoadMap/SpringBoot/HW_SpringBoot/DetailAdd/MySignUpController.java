@@ -1,7 +1,6 @@
-package com.MySpringBootRoadMap.SpringBoot.CW_SpringBoot.DetailAdd;
+package com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.DetailAdd;
 
-import com.MySpringBootRoadMap.SpringBoot.CW_SpringBoot.FormBuild.MyFormException;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.FormBuild.MyFormException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;

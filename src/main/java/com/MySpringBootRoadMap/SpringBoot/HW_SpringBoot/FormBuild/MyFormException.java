@@ -1,4 +1,4 @@
-package com.MySpringBootRoadMap.SpringBoot.CW_SpringBoot.FormBuild;
+package com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.FormBuild;
 
 public class MyFormException extends RuntimeException {
     public MyFormException(String message) {

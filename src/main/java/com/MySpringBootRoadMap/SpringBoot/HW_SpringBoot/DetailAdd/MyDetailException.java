@@ -1,4 +1,4 @@
-package com.MySpringBootRoadMap.SpringBoot.CW_SpringBoot.DetailAdd;
+package com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.DetailAdd;
 
 public class MyDetailException extends Exception {
     public MyDetailException(String message) {
