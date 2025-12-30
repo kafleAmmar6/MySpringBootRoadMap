@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class UserController {
+public class UsersController {
 
     //GET http://localhost:8080/user/John
     @GetMapping("/user/{name}")
