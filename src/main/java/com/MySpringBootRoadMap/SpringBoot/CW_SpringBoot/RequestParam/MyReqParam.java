@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MyReqParam {
 
-    //GET http://localhost:8080/student?name=ammar&age=20
-    @GetMapping("/student")
+    //GET http://localhost:8080/applicant?name=ammar&age=20
+    @GetMapping("/applicant")
     public String student(@RequestParam String name,
                           @RequestParam int age){
         return "Hello " + name + ", Age : " + age;

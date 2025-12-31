@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/student")
-public class StudentController {
+public class ClientController {
 
 /*To give input in Json from server
 Step 1 = in postman give url : http://localhost:8080/student/add
@@ -24,11 +24,11 @@ step 4 = input Json input in curly bracket
 
 
     @PostMapping("/add")
-    public String  addStudent(@RequestBody Student student){
+    public String  addClient(@RequestBody Client client){
 
-        System.out.println("Id : " + student.getId());
-        System.out.println("Name : " + student.getName());
-        System.out.println("Age : " + student.getAge());
+        System.out.println("Id : " + client.getId());
+        System.out.println("Name : " + client.getName());
+        System.out.println("Age : " + client.getAge());
         return " Program run succesgully !!";
     }
 }
