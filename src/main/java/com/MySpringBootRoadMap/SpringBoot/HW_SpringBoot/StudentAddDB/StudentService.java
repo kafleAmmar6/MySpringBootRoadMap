@@ -1,4 +1,4 @@
-package com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.StudentResult;
+package com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.StudentAddDB;
 
 import org.springframework.stereotype.Service;
 import java.util.List;
