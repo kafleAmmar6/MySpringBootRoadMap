@@ -4,36 +4,22 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Document(collection = "students")
+public class Student {
 
-    public class Student {
+    @MongoId
+    private Integer rollNumber;
 
-        //Student Detail of School
-        @MongoId
-        private Integer studentRollNumber;
-        private String studentName;
-        private String studentClassLevel;
+    private String name;
+    private String email;
+    private String course;
+}
 
-        //Student Subject Marks
-        private Double studentEconomicMarks;
-        private Double  studentAccountMarks;
-        private Double  studentEnglishMarks;
-        private Double  studentNepaliMarks;
-        private Double studentMathMarks;
-        private Double  studentComputerMarks;
-
-        //School and Student Examination Deal
-        private Double studentTotalMarks;
-        private Double studentPassMarks;
-        private Double studentObtainedMarks;
-
-        //Student Result
-        private String studentResult;
-
-    }
 

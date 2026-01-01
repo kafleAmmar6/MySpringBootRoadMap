@@ -2,7 +2,6 @@ package com.MySpringBootRoadMap.SpringBoot.CW_SpringBoot.DB_Connection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component
 public class UserService {
