@@ -1,60 +1,51 @@
 package com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagement;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RentalService {
 
-    private final RentalRepository rentalRepository;
+    @Autowired
+    private RentalRepository rentalRepository;
 
-    public RentalService(RentalRepository rentalRepository) {
-        this.rentalRepository = rentalRepository;
-    }
-
-    // CREATE rental
-    public RentalDetail createRental(RentalDetail rentalDetail) {
-        if (rentalDetail.getBikeStatus() == null) {
-            rentalDetail.setBikeStatus("AVAILABLE");
-        }
+    // ADD BIKES
+    public RentalDetail addBikes(RentalDetail rentalDetail) {
         return rentalRepository.save(rentalDetail);
     }
 
-    // READ all rentals
-    public List<RentalDetail> getAllRentals() {
+    // GET ALL BIKES
+    public List<RentalDetail> getAllBikes() {
         return rentalRepository.findAll();
     }
 
-    // READ by bikeId
-    public RentalDetail getRentalById(String bikeId) {
-        return rentalRepository.findById(bikeId)
-                .orElseThrow(() -> new RuntimeException("Rental not found with id: " + bikeId));
+    // GET BIKES BY BIKEID
+    public RentalDetail getBikesById(Integer bikeId) {
+        return rentalRepository.findByBikeId(bikeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Bike not found with ID: " + bikeId));
     }
 
-    // UPDATE rental
-    public RentalDetail updateRental(String bikeId, RentalDetail rentalDetail) {
-        RentalDetail existing = getRentalById(bikeId);
-        existing.setBikeModel(rentalDetail.getBikeModel());
-        existing.setBikeBrand(rentalDetail.getBikeBrand());
-        existing.setBikeRentalDay(rentalDetail.getBikeRentalDay());
-        existing.setBikeTotalRentalPrice(rentalDetail.getBikeTotalRentalPrice());
-        existing.setBikeStatus(rentalDetail.getBikeStatus());
-        return rentalRepository.save(existing);
+    // UPDATE BIKES BY BIKEID
+    public RentalDetail updateBikes(Integer bikeId, RentalDetail rentalDetail) {
+        RentalDetail existBike = rentalRepository.findByBikeId(bikeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Bike not found with ID: " + bikeId));
+
+        existBike.setBikeId(rentalDetail.getBikeId());
+        existBike.setBikeModel(rentalDetail.getBikeModel());
+        existBike.setBikeBrand(rentalDetail.getBikeBrand());
+        existBike.setBikeStatus(rentalDetail.getBikeStatus());
+
+        return rentalRepository.save(existBike);
     }
 
-    // DELETE rental
-    public void deleteRental(String bikeId) {
-        rentalRepository.delete(getRentalById(bikeId));
-    }
-
-    // ISSUE rental
-    public RentalDetail issueRental(String bikeId) {
-        RentalDetail rental = getRentalById(bikeId);
-        if ("RENTED".equalsIgnoreCase(rental.getBikeStatus())) {
-            throw new RuntimeException("Bike already rented");
-        }
-        rental.setBikeStatus("RENTED");
-        return rentalRepository.save(rental);
+    // DELETE BIKES BY BIKEID
+    public void deleteBikes(Integer bikeId) {
+        // Check if bike exists before deleting
+        RentalDetail existBike = rentalRepository.findByBikeId(bikeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Bike not found with ID: " + bikeId));
+        rentalRepository.deleteByBikeId(bikeId);
     }
 }

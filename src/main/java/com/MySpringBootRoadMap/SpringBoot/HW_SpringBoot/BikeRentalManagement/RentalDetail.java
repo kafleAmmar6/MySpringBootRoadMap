@@ -14,14 +14,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "Bikes")
 public class RentalDetail {
 
-    //BIKE DETAILS
+    // BIKE DETAILS
     @Id
-    private String bikeId;
+    private Integer bikeId;
     private String bikeModel;
     private String bikeBrand;
     private String bikeStatus;
-
-    //RENTAL CHARGES
-    private Double bikeRentalDay;
-    private Double bikeTotalRentalPrice;
 }
