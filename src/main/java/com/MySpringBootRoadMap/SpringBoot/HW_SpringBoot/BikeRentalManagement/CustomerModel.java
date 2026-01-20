@@ -11,14 +11,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "BIKES")
-public class RentalDetail {
+@Document(collection="RENTAL ISSUE")
+public class CustomerModel {
 
-    // BIKE DETAILS
     @Id
-    private Integer bikeId;
-    private Long bikeCc;
-    private String bikeModel;
-    private String bikeBrand;
-    private String bikeStatus;
+    private String customerName;
+    private String customerPhone;
+    private String customerAddress;
+    private String issueBikeModel;
+    private String issueBikeBrand;
+    private String issueBikeCc;
+    private String customerTotalRentalCharges;
 }

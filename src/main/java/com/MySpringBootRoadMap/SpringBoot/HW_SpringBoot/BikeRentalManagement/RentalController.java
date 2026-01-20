@@ -9,9 +9,11 @@ import java.util.List;
 public class RentalController {
 
     private final RentalService rentalService;
+    private final CustomerService customerService;
 
-    public RentalController(RentalService rentalService) {
+    public RentalController(RentalService rentalService, CustomerService customerService) {
         this.rentalService = rentalService;
+        this.customerService = customerService;
     }
 
     @PostMapping("/add")
@@ -35,7 +37,12 @@ public class RentalController {
     }
 
     @DeleteMapping("/delete/id/{bikeId}")
-    public void deleteBikes(@PathVariable Integer bikeId) {
-        rentalService.deleteBikes(bikeId);
+    public RentalDetail deleteBikes(@PathVariable Integer bikeId) {
+       return  rentalService.deleteBikes(bikeId);
+    }
+
+    @PostMapping("/issue/bikeModel/{bikeModel}")
+    public RentalDetail issueBikes( @PathVariable String bikeModel ,@RequestBody CustomerModel customerModel){
+        return customerService.issueBikes(bikeModel,customerModel);
     }
 }

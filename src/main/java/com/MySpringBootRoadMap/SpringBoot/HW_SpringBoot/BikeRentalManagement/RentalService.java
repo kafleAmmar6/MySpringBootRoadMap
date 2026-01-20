@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RentalService {
@@ -42,10 +41,10 @@ public class RentalService {
     }
 
     // DELETE BIKES BY BIKEID
-    public void deleteBikes(Integer bikeId) {
+    public RentalDetail deleteBikes(Integer bikeId) {
         // Check if bike exists before deleting
         RentalDetail existBike = rentalRepository.findByBikeId(bikeId)
                 .orElseThrow(() -> new ResourceNotFoundException("Bike not found with ID: " + bikeId));
-        rentalRepository.deleteByBikeId(bikeId);
+       return  rentalRepository.deleteByBikeId(bikeId);
     }
 }

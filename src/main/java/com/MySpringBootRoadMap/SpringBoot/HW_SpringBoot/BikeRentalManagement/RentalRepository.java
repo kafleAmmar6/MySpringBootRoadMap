@@ -11,5 +11,5 @@ public interface RentalRepository extends MongoRepository<RentalDetail, String> 
     Optional<RentalDetail> findByBikeId(Integer bikeId);
 
     // Delete a bike by bikeId
-    public void deleteByBikeId(Integer bikeId);
+    public RentalDetail deleteByBikeId(Integer bikeId);
 }
