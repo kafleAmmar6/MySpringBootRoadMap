@@ -1,4 +1,4 @@
-package com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagement;
+package com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProject.BikesCode;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,12 +21,6 @@ public class RentalService {
         return rentalRepository.findAll();
     }
 
-    // GET BIKES BY BIKEID
-    public RentalDetail getBikesById(Integer bikeId) {
-        return rentalRepository.findByBikeId(bikeId)
-                .orElseThrow(() -> new ResourceNotFoundException("Bike not found with ID: " + bikeId));
-    }
-
     // UPDATE BIKES BY BIKEID
     public RentalDetail updateBikes(Integer bikeId, RentalDetail rentalDetail) {
         RentalDetail existBike = rentalRepository.findByBikeId(bikeId)
@@ -35,7 +29,9 @@ public class RentalService {
         existBike.setBikeId(rentalDetail.getBikeId());
         existBike.setBikeModel(rentalDetail.getBikeModel());
         existBike.setBikeBrand(rentalDetail.getBikeBrand());
-        existBike.setBikeStatus(rentalDetail.getBikeStatus());
+        existBike.setBikeCc(rentalDetail.getBikeCc());
+        existBike.setBikeInsuranceType(rentalDetail.getBikeInsuranceType());
+        existBike.setBikeInsuranceValid(rentalDetail.getBikeInsuranceValid());
 
         return rentalRepository.save(existBike);
     }

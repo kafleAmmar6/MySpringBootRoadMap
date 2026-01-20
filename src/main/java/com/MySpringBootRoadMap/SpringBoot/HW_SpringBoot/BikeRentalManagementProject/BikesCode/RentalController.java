@@ -1,5 +1,7 @@
-package com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagement;
+package com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProject.BikesCode;
 
+import com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProject.CustomersCode.CustomerModel;
+import com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProject.CustomersCode.CustomerService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,12 +28,7 @@ public class RentalController {
         return rentalService.getAllBikes();
     }
 
-    @GetMapping("/getbyid/{bikeId}")
-    public RentalDetail getBikesById(@PathVariable Integer bikeId) {
-        return rentalService.getBikesById(bikeId);
-    }
-
-    @PutMapping("/update/id/{bikeId}")
+    @PutMapping("/update/bikeId/{bikeId}")
     public RentalDetail updateBikes(@PathVariable Integer bikeId, @RequestBody RentalDetail rentalDetail) {
         return rentalService.updateBikes(bikeId, rentalDetail);
     }
@@ -41,8 +38,12 @@ public class RentalController {
        return  rentalService.deleteBikes(bikeId);
     }
 
-    @PostMapping("/issue/bikeModel/{bikeModel}")
-    public RentalDetail issueBikes( @PathVariable String bikeModel ,@RequestBody CustomerModel customerModel){
-        return customerService.issueBikes(bikeModel,customerModel);
+    @PostMapping("/issue/bikeCc/{bikeCc}/bikeModel/{bikeModel}/bikeAvailable/{bikeAvailable}")
+    public RentalDetail issueBikes(
+            @PathVariable Long bikeCc,
+            @PathVariable String  bikeModel,
+            @PathVariable String bikeAvailable,
+            @RequestBody CustomerModel customerModel){
+        return customerService.issueBikes(bikeCc,bikeModel,bikeAvailable,customerModel);
     }
 }

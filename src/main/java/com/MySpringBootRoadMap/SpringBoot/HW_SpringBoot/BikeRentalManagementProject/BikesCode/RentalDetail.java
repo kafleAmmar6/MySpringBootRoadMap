@@ -1,4 +1,4 @@
-package com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagement;
+package com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProject.BikesCode;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,11 +7,13 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "BIKES")
+@Document(collection = "BIKES DATA")
 public class RentalDetail {
 
     // BIKE DETAILS
@@ -20,5 +22,7 @@ public class RentalDetail {
     private Long bikeCc;
     private String bikeModel;
     private String bikeBrand;
-    private String bikeStatus;
+    private String bikeInsuranceType;
+    private LocalDate bikeInsuranceValid;
+    private String bikeAvailable;
 }
