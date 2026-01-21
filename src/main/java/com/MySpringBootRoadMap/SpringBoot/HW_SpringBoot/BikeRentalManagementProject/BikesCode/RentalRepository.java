@@ -29,4 +29,8 @@ public interface RentalRepository extends MongoRepository<RentalDetail, String> 
     @Query("{ 'bikeAvailable': ?0 }")
     public RentalDetail findByBikeAvailability(String bikeAvailable);
 
+    //FIND BIKE BY CC MODEL AND AVAILABILITY
+    @Query("{'bikeCc' : ?0 , 'bikeModel': ?1 , 'bikeAvailable': ?2 }" )
+    public RentalDetail findByBikeCcAndModelAndAvailability(Long bikeCc,String bikeModel,String bikeAvailable);
+
 }

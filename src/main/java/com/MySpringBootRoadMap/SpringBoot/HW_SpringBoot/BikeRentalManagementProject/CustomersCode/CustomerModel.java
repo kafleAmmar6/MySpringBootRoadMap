@@ -29,6 +29,7 @@ public class CustomerModel {
     private String issuedBikeBrand;
     private Long issuedBikeCc;
     //DATE AND TIME OF ISSUED
+    private Double rentalDays;
     private LocalDate issuedDate;
     private LocalTime issuedTime;
     private LocalDateTime rentalDurationValid;

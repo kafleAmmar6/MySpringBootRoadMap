@@ -6,6 +6,9 @@ import com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProj
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Service
 public class CustomerService {
 
@@ -14,14 +17,34 @@ public class CustomerService {
     @Autowired
     private RentalRepository rentalRepository;
     @Autowired
-    private CustomerModel customerModel;
-    @Autowired
-    private RentalDetail rentalDetail;
+    private CustomerUtilities customerUtilities;
 
-    public RentalDetail issueBikes(Long bikeCc,String bikeModel, String bikeAvailable, CustomerModel customerModel) {
+    public void issueBikes(Long bikeCc,String bikeModel, String bikeAvailable, CustomerModel customerModel) {
+        try {
+            RentalDetail exist = rentalRepository.findByBikeCcAndModelAndAvailability(bikeCc, bikeModel, bikeAvailable);
+            CustomerModel issue = new CustomerModel();
 
+            issue.setCustomerId(customerModel.getCustomerId());
+            issue.setCustomerName(customerModel.getCustomerName());
+            issue.setCustomerPhone(customerModel.getCustomerPhone());
+            issue.setCustomerAddress(customerModel.getCustomerAddress());
 
+            issue.setIssuedBikeBrand(customerModel.getIssuedBikeBrand());
+            issue.setIssuedBikeModel(customerModel.getIssuedBikeModel());
+            issue.setIssuedBikeCc(customerModel.getIssuedBikeCc());
 
-      return null;
+            issue.setIssuedDate(LocalDate.now());
+            issue.setIssuedTime(LocalTime.now());
+            issue.setRentalDurationValid(customerUtilities.rentalDurationValidCheck(
+                    customerModel.getRentalDays(),
+                    customerModel.getIssuedDate(),
+                    customerModel.getIssuedTime()));
+
+            issue.setCustomerTotalRentalCharges(null);
+
+            exist.setBikeAvailable("Not Available");
+        }catch( ResourceNotFoundException e){
+            throw new ResourceNotFoundException("Bike is Not found");
+        }
     }
 }
