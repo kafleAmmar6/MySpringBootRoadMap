@@ -30,8 +30,6 @@ public class RentalService {
         existBike.setBikeModel(rentalDetail.getBikeModel());
         existBike.setBikeBrand(rentalDetail.getBikeBrand());
         existBike.setBikeCc(rentalDetail.getBikeCc());
-        existBike.setBikeInsuranceType(rentalDetail.getBikeInsuranceType());
-        existBike.setBikeInsuranceValid(rentalDetail.getBikeInsuranceValid());
 
         return rentalRepository.save(existBike);
     }

@@ -19,7 +19,7 @@ public class CustomerService {
     @Autowired
     private CustomerUtilities customerUtilities;
 
-    public void issueBikes(Long bikeCc,String bikeModel, String bikeAvailable, CustomerModel customerModel) {
+    public String  issueBikes(Long bikeCc, String bikeModel, String bikeAvailable, CustomerModel customerModel) {
         try {
             RentalDetail exist = rentalRepository.findByBikeCcAndModelAndAvailability(bikeCc, bikeModel, bikeAvailable);
             CustomerModel issue = new CustomerModel();
@@ -40,11 +40,14 @@ public class CustomerService {
                     customerModel.getIssuedDate(),
                     customerModel.getIssuedTime()));
 
-            issue.setCustomerTotalRentalCharges(null);
+            issue.setCustomerTotalRentalCharges(customerUtilities.customerRenatlTotalChargesCheck(
+                    customerModel.getRentalDays(),
+                    customerModel.getIssuedBikeCc()));
 
             exist.setBikeAvailable("Not Available");
         }catch( ResourceNotFoundException e){
             throw new ResourceNotFoundException("Bike is Not found");
         }
+        return "Sucessfully Bike is Issued";
     }
 }

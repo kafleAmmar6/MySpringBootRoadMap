@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection="RENTAL ISSUE DATA")
+@Component
 public class CustomerModel {
 
     //CUSTOMER DETAIL
@@ -32,7 +34,7 @@ public class CustomerModel {
     private Double rentalDays;
     private LocalDate issuedDate;
     private LocalTime issuedTime;
-    private LocalDateTime rentalDurationValid;
+    private String  rentalDurationValid;
    //TOTAL CHARGES FOR CUSTOMER
     private String customerTotalRentalCharges;
 }

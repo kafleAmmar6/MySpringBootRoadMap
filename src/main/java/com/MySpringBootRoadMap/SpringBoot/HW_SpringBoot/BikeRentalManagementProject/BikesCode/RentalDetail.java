@@ -22,7 +22,5 @@ public class RentalDetail {
     private Long bikeCc;
     private String bikeModel;
     private String bikeBrand;
-    private String bikeInsuranceType;
-    private LocalDate bikeInsuranceValid;
     private String bikeAvailable;
 }

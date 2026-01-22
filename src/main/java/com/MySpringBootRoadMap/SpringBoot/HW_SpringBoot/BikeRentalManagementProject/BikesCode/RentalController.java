@@ -39,7 +39,7 @@ public class RentalController {
     }
 
     @PostMapping("/issue/bikeCc/{bikeCc}/bikeModel/{bikeModel}/bikeAvailable/{bikeAvailable}")
-    public RentalDetail issueBikes(
+    public String issueBikes(
             @PathVariable Long bikeCc,
             @PathVariable String  bikeModel,
             @PathVariable String bikeAvailable,
