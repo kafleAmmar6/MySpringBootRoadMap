@@ -1,9 +1,8 @@
 package com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProject.CustomersCode;
 
-import com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProject.BikesCode.RentalDetail;
-import com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProject.BikesCode.RentalRepository;
-import com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProject.BikesCode.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProject.BikesCode.Bike;
+import com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProject.BikesCode.BikeRepository;
+import com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProject.BikesCode.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -12,42 +11,47 @@ import java.time.LocalTime;
 @Service
 public class CustomerService {
 
-    @Autowired
-    private CustomerRepository customerRepository;
-    @Autowired
-    private RentalRepository rentalRepository;
-    @Autowired
-    private CustomerUtilities customerUtilities;
+    private final CustomerRepository customerRepository;
+    private final BikeRepository bikeRepository;
+    private final ChargeUtil chargeUtil;
 
-    public String  issueBikes(Long bikeCc, String bikeModel, String bikeAvailable, CustomerModel customerModel) {
-        try {
-            RentalDetail exist = rentalRepository.findByBikeCcAndModelAndAvailability(bikeCc, bikeModel, bikeAvailable);
-            CustomerModel issue = new CustomerModel();
-
-            issue.setCustomerId(customerModel.getCustomerId());
-            issue.setCustomerName(customerModel.getCustomerName());
-            issue.setCustomerPhone(customerModel.getCustomerPhone());
-            issue.setCustomerAddress(customerModel.getCustomerAddress());
-
-            issue.setIssuedBikeBrand(customerModel.getIssuedBikeBrand());
-            issue.setIssuedBikeModel(customerModel.getIssuedBikeModel());
-            issue.setIssuedBikeCc(customerModel.getIssuedBikeCc());
-
-            issue.setIssuedDate(LocalDate.now());
-            issue.setIssuedTime(LocalTime.now());
-            issue.setRentalDurationValid(customerUtilities.rentalDurationValidCheck(
-                    customerModel.getRentalDays(),
-                    customerModel.getIssuedDate(),
-                    customerModel.getIssuedTime()));
-
-            issue.setCustomerTotalRentalCharges(customerUtilities.customerRenatlTotalChargesCheck(
-                    customerModel.getRentalDays(),
-                    customerModel.getIssuedBikeCc()));
-
-            exist.setBikeAvailable("Not Available");
-        }catch( ResourceNotFoundException e){
-            throw new ResourceNotFoundException("Bike is Not found");
-        }
-        return "Sucessfully Bike is Issued";
+    public CustomerService(CustomerRepository customerRepo,
+                           BikeRepository bikeRepo,
+                           ChargeUtil chargeUtil) {
+        this.customerRepository = customerRepo;
+        this.bikeRepository = bikeRepo;
+        this.chargeUtil = chargeUtil;
     }
+
+    // ISSUE BIKE
+    public String issueBike(Long bikeCc, String bikeModel, String bikeBrand, String bikeStatus, Customer customer) {
+
+        Bike bike = bikeRepository
+                .findByBikeCcAndBikeBrandAndBikeModelAndBikeStatus(bikeCc,bikeBrand, bikeModel,bikeStatus)
+                .orElseThrow(() -> new NotFoundException("Bike not available"));
+
+        customer.setCustomerId(customer.getCustomerId());
+       customer.setCustomerName(customer.getCustomerName());
+       customer.setCustomerAddress(customer.getCustomerAddress());
+       customer.setCustomerPhone(customer.getCustomerPhone());
+
+       customer.setIssuedbikeBrand(bikeBrand);
+       customer.setIssuedbikeModel(bikeModel);
+       customer.setIssuedbikeCc(bikeCc);
+
+       customer.setRentalDays(customer.getRentalDays());
+        customer.setIssuedDate(LocalDate.now());
+        customer.setIssuedTime(LocalTime.now());
+
+        customer.setTotalCharge(
+                chargeUtil.calculateTotal(customer.getIssuedbikeCc(),customer.getRentalDays()));
+
+        bike.setBikeStatus("Not Available");
+
+        bikeRepository.save(bike);
+        customerRepository.save(customer);
+
+        return "Bike issued successfully";
+    }
+
 }

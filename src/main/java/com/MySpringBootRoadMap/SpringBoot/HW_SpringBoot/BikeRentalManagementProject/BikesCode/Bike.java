@@ -1,26 +1,23 @@
 package com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProject.BikesCode;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
-
+@Document(collection = "BIKES DATA")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "BIKES DATA")
-public class RentalDetail {
+public class Bike {
 
-    // BIKE DETAILS
     @Id
     private Integer bikeId;
+
     private Long bikeCc;
     private String bikeModel;
     private String bikeBrand;
-    private String bikeAvailable;
+
+    // Available / Not Available
+    private String bikeStatus;
 }
