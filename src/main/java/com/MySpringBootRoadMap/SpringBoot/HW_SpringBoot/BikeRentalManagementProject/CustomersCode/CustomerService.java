@@ -24,34 +24,50 @@ public class CustomerService {
     }
 
     // ISSUE BIKE
-    public String issueBike(Long bikeCc, String bikeModel, String bikeBrand, String bikeStatus, Customer customer) {
+    public String issueBike(Long bikeCc,
+                            String bikeModel,
+                            String bikeBrand,
+                            Customer customer) {
 
+        //  DO NOT take bikeStatus from request
         Bike bike = bikeRepository
-                .findByBikeCcAndBikeBrandAndBikeModelAndBikeStatus(bikeCc,bikeBrand, bikeModel,bikeStatus)
+                .findByBikeCcAndBikeBrandAndBikeModelAndBikeStatus(
+                        bikeCc,
+                        bikeBrand,
+                        bikeModel,
+                        "Available"
+                )
                 .orElseThrow(() -> new NotFoundException("Bike not available"));
 
-        customer.setCustomerId(customer.getCustomerId());
-       customer.setCustomerName(customer.getCustomerName());
-       customer.setCustomerAddress(customer.getCustomerAddress());
-       customer.setCustomerPhone(customer.getCustomerPhone());
+        // set issued bike info
+        customer.setIssuedbikeBrand(bikeBrand);
+        customer.setIssuedbikeModel(bikeModel);
+        customer.setIssuedbikeCc(bikeCc);
 
-       customer.setIssuedbikeBrand(bikeBrand);
-       customer.setIssuedbikeModel(bikeModel);
-       customer.setIssuedbikeCc(bikeCc);
-
-       customer.setRentalDays(customer.getRentalDays());
         customer.setIssuedDate(LocalDate.now());
         customer.setIssuedTime(LocalTime.now());
 
         customer.setTotalCharge(
-                chargeUtil.calculateTotal(customer.getIssuedbikeCc(),customer.getRentalDays()));
+                chargeUtil.calculateTotal(bikeCc, customer.getRentalDays())
+        );
 
+        // update bike status
         bike.setBikeStatus("Not Available");
 
         bikeRepository.save(bike);
         customerRepository.save(customer);
 
-        return "Bike issued successfully";
+        return customer.getCustomerId() +
+                customer.getCustomerName() +
+                customer.getCustomerAddress() +
+                customer.getCustomerPhone() +
+                customer.getIssuedbikeCc() +
+                customer.getIssuedbikeBrand() +
+                customer.getIssuedbikeModel() +
+                customer.getRentalDays() +
+                customer.getIssuedDate() +
+                customer.getIssuedTime() +
+                customer.getTotalCharge() +
+                "Bike issued successfully";
     }
-
 }

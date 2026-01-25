@@ -22,21 +22,28 @@ public class BikeService {
     }
 
     public Bike updateBike(Integer bikeId, Bike bike) {
-        Bike oldBike = bikeRepository.findByBikeId(bikeId)
-                .orElseThrow(() -> new NotFoundException("Bike not found"));
+       try {
+           Bike oldBike = bikeRepository.findByBikeId(bikeId);
+           oldBike.setBikeId(bike.getBikeId());
+           oldBike.setBikeBrand(bike.getBikeBrand());
+           oldBike.setBikeModel(bike.getBikeModel());
+           oldBike.setBikeCc(bike.getBikeCc());
+           oldBike.setBikeStatus(bike.getBikeStatus());
 
-        oldBike.setBikeId(bike.getBikeId());
-        oldBike.setBikeBrand(bike.getBikeBrand());
-        oldBike.setBikeModel(bike.getBikeModel());
-        oldBike.setBikeCc(bike.getBikeCc());
-        oldBike.setBikeStatus(bike.getBikeStatus());
-
-        return bikeRepository.save(oldBike);
+           return bikeRepository.save(oldBike);
+       }
+       catch (NotFoundException e){
+           throw new NotFoundException("Bike not found");
+       }
     }
 
     public void deleteBike(Integer bikeId) {
-        bikeRepository.findByBikeId(bikeId)
-                .orElseThrow(() -> new NotFoundException("Bike not found"));
-        bikeRepository.deleteByBikeId(bikeId);
+        try {
+            bikeRepository.findByBikeId(bikeId);
+            bikeRepository.deleteByBikeId(bikeId);
+        }
+        catch(NotFoundException e){
+            throw new NotFoundException("Bike not found");
+        }
     }
 }

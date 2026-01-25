@@ -20,4 +20,5 @@ public class Bike {
 
     // Available / Not Available
     private String bikeStatus;
+
 }

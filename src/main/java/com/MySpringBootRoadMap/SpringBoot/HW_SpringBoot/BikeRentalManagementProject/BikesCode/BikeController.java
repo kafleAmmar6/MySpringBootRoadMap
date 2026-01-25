@@ -29,26 +29,31 @@ public class BikeController {
         return bikeService.getAllBikes();
     }
 
-    @PutMapping("/update/{id}")
-    public Bike update(@PathVariable Integer id,
+    @PutMapping("/update/{bikeId}")
+    public Bike update(@PathVariable Integer bikeId,
                        @RequestBody Bike bike) {
-        return bikeService.updateBike(id, bike);
+        return bikeService.updateBike(bikeId, bike);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable Integer id) {
-        bikeService.deleteBike(id);
+    @DeleteMapping("/delete/{bikeId}")
+    public String delete(@PathVariable Integer bikeId) {
+        bikeService.deleteBike(bikeId);
         return "Bike deleted successfully";
     }
 
-    // ISSUE BIKE
-    @PostMapping("/issue/bikeCc/{}bikeCc/bikeBrand/{bikeBrand}/bikeModel/{bikeModel}/bikeStatus/{bikeStatus}")
-    public String issueBike(@PathVariable Long bikeCc,
-                            @PathVariable String bikeBrand,
-                            @PathVariable String bikeModel,
-                            @PathVariable String bikeStatus,
-                            @RequestBody Customer customer) {
-
-        return customerService.issueBike(bikeCc,bikeBrand, bikeModel,bikeStatus, customer);
+    //BIKE ISSUE
+    @PostMapping("/issue")
+    public String issueBike(
+            @RequestParam Long bikeCc,
+            @RequestParam String bikeBrand,
+            @RequestParam String bikeModel,
+            @RequestBody Customer customer
+    ) {
+        return customerService.issueBike(
+                bikeCc,
+                bikeModel,
+                bikeBrand,
+                customer
+        );
     }
 }
