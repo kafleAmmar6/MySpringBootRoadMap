@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Service
 public class CustomerService {
@@ -23,13 +24,26 @@ public class CustomerService {
         this.chargeUtil = chargeUtil;
     }
 
-    // ISSUE BIKE
     public String issueBike(Long bikeCc,
                             String bikeModel,
                             String bikeBrand,
                             Customer customer) {
 
-        //  DO NOT take bikeStatus from request
+        // FOR CUSTOMER VALID
+        if (customer == null) {
+            throw new NotFoundException("Customer details required");
+        }
+        //FOR CUSTOMER NAME VALID
+        if (customer.getCustomerName().trim().isEmpty())
+            throw new NotFoundException("Name cannot be empty!");
+        if (!customer.getCustomerName().matches("[a-zA-Z ]+"))
+            throw new NotFoundException("Name cannot be numeric!");
+        //FOR CUSTOMER ADDRESS VALID
+        if (customer.getCustomerAddress().trim().isEmpty())
+            throw new NotFoundException("Address cannot be empty!");
+        //FOR CUSTOMER PHONE VALID
+        if (!customer.getCustomerPhone().matches("\\d{10}"))
+            throw new NotFoundException("Phone number must be 10 digits!");
         Bike bike = bikeRepository
                 .findByBikeCcAndBikeBrandAndBikeModelAndBikeStatus(
                         bikeCc,
@@ -39,35 +53,71 @@ public class CustomerService {
                 )
                 .orElseThrow(() -> new NotFoundException("Bike not available"));
 
-        // set issued bike info
         customer.setIssuedbikeBrand(bikeBrand);
         customer.setIssuedbikeModel(bikeModel);
         customer.setIssuedbikeCc(bikeCc);
-
         customer.setIssuedDate(LocalDate.now());
         customer.setIssuedTime(LocalTime.now());
+        customer.setCustomerPaidStatus("Unpaid Yet");
 
         customer.setTotalCharge(
                 chargeUtil.calculateTotal(bikeCc, customer.getRentalDays())
         );
 
-        // update bike status
         bike.setBikeStatus("Not Available");
 
         bikeRepository.save(bike);
         customerRepository.save(customer);
 
-        return customer.getCustomerId() +
-                customer.getCustomerName() +
-                customer.getCustomerAddress() +
-                customer.getCustomerPhone() +
-                customer.getIssuedbikeCc() +
-                customer.getIssuedbikeBrand() +
-                customer.getIssuedbikeModel() +
-                customer.getRentalDays() +
-                customer.getIssuedDate() +
-                customer.getIssuedTime() +
-                customer.getTotalCharge() +
-                "Bike issued successfully";
+        return "Bike issued successfully to " + customer.getCustomerName() +
+                " with total charges : " + customer.getTotalCharge();
     }
+
+    public String returnBike(Integer customerId) {
+
+        try {
+
+            Customer customer = customerRepository.findByCustomerId(customerId)
+                    .orElseThrow(() -> new NotFoundException("Customer not found with ID: " + customerId)
+                    );
+
+
+            if (customer.getIssuedbikeCc() == null) {
+                throw new IllegalStateException("This customer has no issued bike");
+            }
+
+
+            Bike bike = bikeRepository
+                    .findByBikeCcAndBikeBrandAndBikeModelAndBikeStatus(
+                            customer.getIssuedbikeCc(),
+                            customer.getIssuedbikeBrand(),
+                            customer.getIssuedbikeModel(),
+                            "Not Available"
+                    )
+                    .orElseThrow(() ->
+                            new NotFoundException("Issued bike record not found")
+                    );
+
+
+            bike.setBikeStatus("Available");
+            bikeRepository.save(bike);
+
+
+            customer.setCustomerPaidStatus("Paid");
+
+            customerRepository.save(customer);
+
+            return "Bike returned successfully by customer ID: " + customerId;
+
+        } catch (NotFoundException e) {
+            throw new NotFoundException("Provide correct information");
+        }
+    }
+
+
+    public List<Customer> getAllCustomer() {
+        return customerRepository.findAll();
+    }
+
+
 }

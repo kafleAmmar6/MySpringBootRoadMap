@@ -30,4 +30,5 @@ public class Customer {
     private LocalTime issuedTime;
 
     private String totalCharge;
+    private String customerPaidStatus;
 }

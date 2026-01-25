@@ -13,6 +13,10 @@ public class BikeService {
     }
 
     public Bike addBike(Bike bike) {
+        if (bike == null) {
+            throw new IllegalArgumentException("Bike data cannot be null");
+        }
+
         bike.setBikeStatus("Available");
         return bikeRepository.save(bike);
     }
@@ -22,28 +26,23 @@ public class BikeService {
     }
 
     public Bike updateBike(Integer bikeId, Bike bike) {
-       try {
-           Bike oldBike = bikeRepository.findByBikeId(bikeId);
-           oldBike.setBikeId(bike.getBikeId());
-           oldBike.setBikeBrand(bike.getBikeBrand());
-           oldBike.setBikeModel(bike.getBikeModel());
-           oldBike.setBikeCc(bike.getBikeCc());
-           oldBike.setBikeStatus(bike.getBikeStatus());
 
-           return bikeRepository.save(oldBike);
-       }
-       catch (NotFoundException e){
-           throw new NotFoundException("Bike not found");
-       }
+        Bike oldBike = bikeRepository.findByBikeId(bikeId)
+                .orElseThrow(() -> new NotFoundException("Bike not found with ID: " + bikeId));
+
+        oldBike.setBikeBrand(bike.getBikeBrand());
+        oldBike.setBikeModel(bike.getBikeModel());
+        oldBike.setBikeCc(bike.getBikeCc());
+        oldBike.setBikeStatus("Available");
+
+        return bikeRepository.save(oldBike);
     }
 
     public void deleteBike(Integer bikeId) {
-        try {
-            bikeRepository.findByBikeId(bikeId);
-            bikeRepository.deleteByBikeId(bikeId);
-        }
-        catch(NotFoundException e){
-            throw new NotFoundException("Bike not found");
-        }
+
+        Bike bike = bikeRepository.findByBikeId(bikeId)
+                .orElseThrow(() -> new NotFoundException("Bike not found with ID: " + bikeId));
+
+        bikeRepository.deleteByBikeId(bikeId);
     }
 }

@@ -3,9 +3,8 @@ import com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProj
 import com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProject.CustomersCode.CustomerService;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.util.List;
 
+import java.util.List;
 @RestController
 @RequestMapping("/bikes")
 public class BikeController {
@@ -24,7 +23,7 @@ public class BikeController {
         return bikeService.addBike(bike);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/get/all")
     public List<Bike> allBikes() {
         return bikeService.getAllBikes();
     }
@@ -41,19 +40,27 @@ public class BikeController {
         return "Bike deleted successfully";
     }
 
-    //BIKE ISSUE
     @PostMapping("/issue")
-    public String issueBike(
-            @RequestParam Long bikeCc,
-            @RequestParam String bikeBrand,
-            @RequestParam String bikeModel,
-            @RequestBody Customer customer
-    ) {
+    public String issueBike(@RequestParam Long bikeCc,
+                            @RequestParam String bikeBrand,
+                            @RequestParam String bikeModel,
+                            @RequestBody Customer customer) {
+
         return customerService.issueBike(
                 bikeCc,
                 bikeModel,
                 bikeBrand,
                 customer
         );
+    }
+
+    @GetMapping("/return/{customerId}")
+    public String returnBike(@PathVariable Integer customerId) {
+        return customerService.returnBike(customerId);
+    }
+
+    @GetMapping("/customer/get/all")
+    public List<Customer> allCustomer() {
+        return customerService.getAllCustomer();
     }
 }

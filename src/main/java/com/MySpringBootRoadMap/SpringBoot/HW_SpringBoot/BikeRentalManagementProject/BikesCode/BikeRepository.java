@@ -13,7 +13,7 @@ public interface BikeRepository extends MongoRepository<Bike, Integer> {
             String bikeStatus
     );
 
-    Bike deleteByBikeId(Integer bikeId);
+    Optional<Bike> findByBikeId(Integer bikeId);
 
-    Bike findByBikeId(Integer bikeId);
+    void deleteByBikeId(Integer bikeId);
 }
