@@ -7,4 +7,6 @@ import java.util.Optional;
 public interface CustomerRepository extends MongoRepository<Customer, Integer> {
 
     Optional<Customer> findByCustomerId(Integer customerId);
+
+    void deleteByCustomerId(Integer customerId);
 }

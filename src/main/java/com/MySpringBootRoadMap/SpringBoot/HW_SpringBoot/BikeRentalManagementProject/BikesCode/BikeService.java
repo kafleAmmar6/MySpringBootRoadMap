@@ -13,12 +13,12 @@ public class BikeService {
     }
 
     public Bike addBike(Bike bike) {
-        if (bike == null) {
-            throw new IllegalArgumentException("Bike data cannot be null");
-        }
+            if (bike == null) {
+                throw new NotFoundException("Bike data cannot be null");
+            }
 
-        bike.setBikeStatus("Available");
-        return bikeRepository.save(bike);
+            bike.setBikeStatus("Available");
+            return bikeRepository.save(bike);
     }
 
     public List<Bike> getAllBikes() {

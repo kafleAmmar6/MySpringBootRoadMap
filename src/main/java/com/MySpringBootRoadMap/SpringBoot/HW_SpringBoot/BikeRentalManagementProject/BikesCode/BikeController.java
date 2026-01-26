@@ -63,4 +63,11 @@ public class BikeController {
     public List<Customer> allCustomer() {
         return customerService.getAllCustomer();
     }
+
+    /*
+    @DeleteMapping("/delete/customer/{customerId}")
+    public String deleteCustomer(@PathVariable Integer customerId) {
+        customerService.deleteCustomer(customerId);
+        return "Customer details deleted successfully";
+    }*/
 }
