@@ -1,10 +1,11 @@
 package com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProject.BikesCode;
+
 import com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProject.CustomersCode.Customer;
 import com.MySpringBootRoadMap.SpringBoot.HW_SpringBoot.BikeRentalManagementProject.CustomersCode.CustomerService;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
+
 @RestController
 @RequestMapping("/bikes")
 public class BikeController {
@@ -18,28 +19,33 @@ public class BikeController {
         this.customerService = customerService;
     }
 
+    //  ADMIN ONLY
     @PostMapping("/add")
     public Bike addBike(@RequestBody Bike bike) {
         return bikeService.addBike(bike);
     }
 
+    //  ADMIN + CUSTOMER
     @GetMapping("/get/all")
     public List<Bike> allBikes() {
         return bikeService.getAllBikes();
     }
 
+    //  ADMIN ONLY
     @PutMapping("/update/{bikeId}")
     public Bike update(@PathVariable Integer bikeId,
                        @RequestBody Bike bike) {
         return bikeService.updateBike(bikeId, bike);
     }
 
+    //  ADMIN ONLY
     @DeleteMapping("/delete/{bikeId}")
     public String delete(@PathVariable Integer bikeId) {
         bikeService.deleteBike(bikeId);
         return "Bike deleted successfully";
     }
 
+    //  CUSTOMER + ADMIN
     @PostMapping("/issue")
     public String issueBike(@RequestParam Long bikeCc,
                             @RequestParam String bikeBrand,
@@ -54,20 +60,16 @@ public class BikeController {
         );
     }
 
+    //  CUSTOMER + ADMIN
     @GetMapping("/return/{customerId}")
     public String returnBike(@PathVariable Integer customerId) {
         return customerService.returnBike(customerId);
     }
 
+    //  ADMIN ONLY
     @GetMapping("/customer/get/all")
     public List<Customer> allCustomer() {
         return customerService.getAllCustomer();
     }
-
-    /*
-    @DeleteMapping("/delete/customer/{customerId}")
-    public String deleteCustomer(@PathVariable Integer customerId) {
-        customerService.deleteCustomer(customerId);
-        return "Customer details deleted successfully";
-    }*/
 }
+
